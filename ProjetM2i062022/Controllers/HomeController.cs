@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MonProjet.Repository.Voiture;
 using ProjetM2i062022.Models;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,16 @@ namespace ProjetM2i062022.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IVoitureRepository _voitureRepository;
+        public HomeController(ILogger<HomeController> logger, IVoitureRepository voitureRepository)
         {
             _logger = logger;
+            _voitureRepository = voitureRepository;
         }
 
         public IActionResult Index()
         {
+            var allVoitures = _voitureRepository.GetAllVoitures();
             return View();
         }
 
