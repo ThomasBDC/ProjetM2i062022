@@ -8,5 +8,6 @@ namespace MonProjet.Repository.Voiture
     public interface IVoitureRepository
     {
         public List<VoitureModel> GetAllVoitures();
+        public void AddVoiture();
     }
 }

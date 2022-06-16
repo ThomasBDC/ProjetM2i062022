@@ -23,6 +23,8 @@ namespace ProjetM2i062022.Controllers
         public IActionResult Index()
         {
             var allVoitures = _voitureRepository.GetAllVoitures();
+            _voitureRepository.AddVoiture();
+            var allVoituresBis = _voitureRepository.GetAllVoitures();
             return View();
         }
 

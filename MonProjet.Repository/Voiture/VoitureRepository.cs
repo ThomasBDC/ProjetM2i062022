@@ -2,49 +2,48 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MonProjet.Repository.Voiture
 {
-    public class VoitureRepository : BaseRepository, IVoitureRepository
+    public class VoitureRepository :  IVoitureRepository
     {
-        public VoitureRepository() : base()
+        private List<VoitureModel> allVoitures { get; set; }
+        public VoitureRepository()
         {
-            
+            allVoitures = new List<VoitureModel>()
+            {
+                new VoitureModel()
+                {
+                    IdVoiture = 1,
+                    Couleur = "Bleu",
+                    Marque = "Peugeot",
+                    Modele = "308"
+                },
+                new VoitureModel()
+                {
+                    IdVoiture = 1,
+                    Couleur = "Rouge",
+                    Marque = "Ferrari",
+                    Modele = "458 Italia"
+                }
+            };
         }
         public List<VoitureModel> GetAllVoitures()
         {
-            try
+            return allVoitures.OrderBy(voiture => voiture.Marque).ToList();
+        }
+
+        public void AddVoiture()
+        {
+            allVoitures.Add(new VoitureModel()
             {
-                var cnn = OpenConnexion();
-
-                var sql = "SELECT idVoiture, Marque, Modele, Couleur as laCouleurDeLaVoiture FROM Voiture";
-
-                MySqlCommand cmd = new MySqlCommand(sql, cnn);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-
-                List<VoitureModel> allVoitures = new List<VoitureModel>();
-                while (rdr.Read())
-                {
-                    var voitureModel = new VoitureModel()
-                    {
-                        IdVoiture = Convert.ToInt16(rdr["idVoiture"]),
-                        Marque = rdr["Marque"].ToString(),
-                        Modele = rdr["Modele"].ToString(),
-                        Couleur = rdr["laCouleurDeLaVoiture"].ToString(),
-                    };
-
-                    allVoitures.Add(voitureModel);
-                }
-                rdr.Close();
-                cnn.Close();
-
-                return allVoitures;
-            }
-            catch(Exception e)
-            {
-                throw new Exception("Une erreur est survenue");
-            }
+                IdVoiture = 1,
+                Couleur = "Jaune",
+                Marque = "Lamborghini",
+                Modele = "Murciélago"
+            });
         }
     }
 }
